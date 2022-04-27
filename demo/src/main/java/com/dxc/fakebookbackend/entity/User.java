@@ -16,6 +16,11 @@ import javax.persistence.ManyToMany;
 @Entity
 public class User extends Audit {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	private String userName;
 	private String userFirstName;

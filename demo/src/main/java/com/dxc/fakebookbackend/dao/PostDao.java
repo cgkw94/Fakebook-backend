@@ -10,6 +10,8 @@ import com.dxc.fakebookbackend.entity.Post;
 
 
 public interface PostDao extends JpaRepository<Post, Long> {	
+	
+	public Optional<Post> findById(Long id);
 	Page<Post> findByUserUserName(String userName, Pageable pageable);
 	Optional<Post> findByIdAndUserUserName(Long id, String userName);
 }
