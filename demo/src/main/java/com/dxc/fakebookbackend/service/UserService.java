@@ -1,9 +1,13 @@
 package com.dxc.fakebookbackend.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,4 +66,14 @@ public class UserService {
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
 	}
+
+	public Page<User> allUser(Pageable pageable) {
+		return userDao.findAll(pageable);
+	}
+	
+	
+	public void deletePost(String userName) {
+        userDao.deleteById(userName);;
+    }
+	
 }

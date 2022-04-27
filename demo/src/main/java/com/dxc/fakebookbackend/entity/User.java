@@ -1,5 +1,6 @@
 package com.dxc.fakebookbackend.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,14 +12,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 
+
 @Entity
-public class User {
+public class User extends Audit {
 	
 	@Id
 	private String userName;
 	private String userFirstName;
 	private String userLastName;
 	private String userPassword;
+
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLE", 
@@ -70,6 +73,7 @@ public class User {
 	public void setRole(Set<Role> role) {
 		this.role = role;
 	}
+
 	
 	
 }
