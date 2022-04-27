@@ -49,8 +49,12 @@ public class PostService {
 		return postDao.save(postToUpdate);
 	}
 	
-	public void updateViewCount(Long postId) {
-		
+	public Post updateViewCount(Long postId) {
+		Post postToUpdate = postDao.getOne(postId);
+		Long viewCount = postToUpdate.getViewCount();
+
+		postToUpdate.setViewCount(viewCount + 1);
+		return postDao.save(postToUpdate);
 	}
 	
 

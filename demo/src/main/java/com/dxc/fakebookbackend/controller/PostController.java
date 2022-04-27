@@ -41,4 +41,11 @@ public class PostController {
 		
 		return postService.updatePost(postId, post);
 	}
+	
+	@PutMapping("/posts/{postId}/updateViewCount") 
+	public Post updateViewCount(@PathVariable Long postId) {
+		return postService.updateViewCount(postId);
+	}
+	
+	
 }
