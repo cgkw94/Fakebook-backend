@@ -40,6 +40,7 @@ public class UserController {
 	public String forAdmin() {
 		return "admin only";
 	}
+	
 	//testing
 	@GetMapping({"/forUser"})
 	@PreAuthorize("hasRole('User')")

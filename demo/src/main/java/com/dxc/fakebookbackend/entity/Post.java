@@ -1,10 +1,10 @@
 package com.dxc.fakebookbackend.entity;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 public class Post extends Audit{
@@ -24,7 +24,7 @@ public class Post extends Audit{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "uuid")
 	private Long id;
 	
 	@Lob
@@ -32,12 +32,16 @@ public class Post extends Audit{
 	
 	private String hyperlink;
 	
+	private String file_path;
+	
 	private Long viewCount = (long) 0;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_username", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
+	
+	
 	
 	public Long getId() {
 		return id;
@@ -78,9 +82,14 @@ public class Post extends Audit{
 	public void setViewCount(Long viewCount) {
 		this.viewCount = viewCount;
 	}
-	
-	
-	
-	
+
+	public String getFile_path() {
+		return file_path;
+	}
+
+	public void setFile_path(String file_path) {
+		this.file_path = file_path;
+	}
+
 	
 }
