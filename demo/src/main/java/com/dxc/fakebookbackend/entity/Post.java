@@ -24,12 +24,13 @@ public class Post extends Audit{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "uuid")
+	@GeneratedValue
 	private Long id;
 	
 	@Lob
 	private String content;
 	
+	@Lob
 	private String hyperlink;
 	
 	private String file_path;

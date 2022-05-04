@@ -7,6 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,13 +45,25 @@ public class PostController {
 		return postService.getAllPost(pageable);
 	}
 	
+	@GetMapping("/posts/{postId}")
+	public Post getPost(@PathVariable Long postId) {
+		System.out.println(postId);
+		return postService.getPost(postId);
+	}
+	
 	@PutMapping("/posts/{postId}")
 	public Post updatePost(@PathVariable (value = "postId") Long postId, @RequestBody Post post) {
 		
 		return postService.updatePost(postId, post);
 	}
 	
-	@PutMapping("/posts/{postId}/updateViewCount") 
+	@DeleteMapping("/user/{userName}/posts/{postId}") 
+	public void deletePost(@PathVariable (value = "userName") String userName, @PathVariable (value = "postId") Long postId) {
+		
+		postService.deletePost(userName, postId);
+	}
+	
+	@GetMapping("/posts/{postId}/updateViewCount") 
 	public Post updateViewCount(@PathVariable Long postId) {
 		return postService.updateViewCount(postId);
 	}
@@ -65,9 +78,9 @@ public class PostController {
 	    return postService.getListFiles();
 	  }
 	
-	@GetMapping("/files/{filename:.+}")
+	@GetMapping("/files/{userName}/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		return postService.getFile(filename);
+	public ResponseEntity<Resource> getFile(@PathVariable String userName, @PathVariable String filename) {
+		return postService.getFile(filename, userName);
 	}
 }

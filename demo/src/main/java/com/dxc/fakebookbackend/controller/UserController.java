@@ -34,20 +34,6 @@ public class UserController {
 		return userService.registerNewUser(user);
 	}
 	
-	//testing
-	@GetMapping({"/forAdmin"})
-	@PreAuthorize("hasRole('Admin')")
-	public String forAdmin() {
-		return "admin only";
-	}
-	
-	//testing
-	@GetMapping({"/forUser"})
-	@PreAuthorize("hasRole('User')")
-	public String forUser() {
-		return "user only";
-	}
-	
 	@GetMapping({"/allUser"})
 	public Page<User> allUser(Pageable pageable) {
 		return userService.allUser(pageable);
@@ -55,6 +41,7 @@ public class UserController {
 	
 	//delete user
 	@DeleteMapping("/user/{userName}")
+	@PreAuthorize("hasRole('Admin')")
 	public void deleteUser(@PathVariable String userName) {
 		userService.deletePost(userName);
 	}

@@ -36,8 +36,7 @@ public class PostService {
 	private FilesStorageService storageService;
 
 	private User user;
-	
-	
+	private Post post;
 	
 	
 	public Page<Post> getAllPostByUserName(String userName, Pageable pageable) {
@@ -47,6 +46,10 @@ public class PostService {
 
 	public Page<Post> getAllPost(Pageable pageable) {
 		return postDao.findAll(pageable);
+	}
+	
+	public Post getPost(Long postId) {
+		return postDao.getOne(postId);
 	}
 	
 	public Post createPost(String userName, Post post) {
@@ -67,6 +70,14 @@ public class PostService {
 		return postDao.save(postToUpdate);
 	}
 	
+	public void deletePost(String userName, Long postId) {
+		post = postDao.getOne(postId);
+		
+		String filePath = post.getFile_path();
+		storageService.deleteFile(userName, filePath);
+		postDao.deleteById(postId);
+	}
+	
 	public Post updateViewCount(Long postId) {
 		Post postToUpdate = postDao.getOne(postId);
 		Long viewCount = postToUpdate.getViewCount();
@@ -77,8 +88,7 @@ public class PostService {
 	
 	 public ResponseEntity<ResponseMessage> uploadFile(MultipartFile file, String content, String hyperlink, String userName) {
 		    String message = "";
-		    String uploadDir = "C:\\Users\\colin\\Documents\\GitHub\\Fakebook-backend\\demo\\uploads\\";
-		    String filename = UUID.randomUUID().toString();
+
 		    try {
 		    	user = userDao.findByUserName(userName);
 		    	
@@ -87,10 +97,10 @@ public class PostService {
 		    	post.setUser(user);
 		    	post.setContent(content);
 		    	post.setHyperlink(hyperlink);
-		    	post.setFile_path(uploadDir + file.getOriginalFilename());
+		    	post.setFile_path(file.getOriginalFilename());
 		    	
 		    	postDao.save(post);
-		        storageService.save(file);
+		        storageService.save(file, userName);
 		        
 		        message = "Uploaded the file successfully: " + file.getOriginalFilename();
 		        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -111,9 +121,11 @@ public class PostService {
 	  }
 	 
 	 
-	  public ResponseEntity<Resource> getFile(String filename) {
-	    Resource file = storageService.load(filename);
+	  public ResponseEntity<Resource> getFile(String filename, String userName) {
+	    Resource file = storageService.load(filename, userName);
 	    return ResponseEntity.ok()
 	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	  }
+
+	
 }
