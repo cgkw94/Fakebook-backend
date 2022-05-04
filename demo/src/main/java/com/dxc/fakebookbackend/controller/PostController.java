@@ -35,9 +35,14 @@ public class PostController {
 		return postService.getAllPostByUserName(userName, pageable);
 	}
 	
-	@PostMapping("/user/{userName}/posts")
-	public Post createPost(@PathVariable String userName, @RequestBody Post post) {
-		return postService.createPost(userName, post);
+//	@PostMapping("/user/{userName}/posts")
+//	public Post createPost(@PathVariable String userName, @RequestBody Post post) {
+//		return postService.createPost(userName, post);
+//	}
+	
+	@PostMapping("/user/{userName}/upload")
+	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("content") String content, @RequestParam("hyperlink") String hyperlink,  @PathVariable String userName ) {
+		return postService.uploadFile(file, content, hyperlink, userName);
 	}
 	
 	@GetMapping("/allpost") 
@@ -66,11 +71,6 @@ public class PostController {
 	@GetMapping("/posts/{postId}/updateViewCount") 
 	public Post updateViewCount(@PathVariable Long postId) {
 		return postService.updateViewCount(postId);
-	}
-
-	@PostMapping("/user/{userName}/upload")
-	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("content") String content, @RequestParam("hyperlink") String hyperlink,  @PathVariable String userName ) {
-		return postService.uploadFile(file, content, hyperlink, userName);
 	}
 	
 	@GetMapping("/files")

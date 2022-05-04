@@ -25,6 +25,9 @@ public class UserService {
 	@Autowired
 	private RoleDao roleDao;
 	
+	@Autowired 
+	private FilesStorageService storageService;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -73,6 +76,7 @@ public class UserService {
 	
 	
 	public void deletePost(String userName) {
+		storageService.deleteUser(userName);
         userDao.deleteById(userName);;
     }
 	
